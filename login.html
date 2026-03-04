@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MightyFit — Acceder</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{background:#f5f5f0;color:#1a1a1a;font-family:"DM Sans",sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .wrap{width:100%;max-width:420px;padding:24px 20px;}
+  .logo-row{text-align:center;margin-bottom:32px;}
+  .logo-text{font-family:"Bebas Neue",sans-serif;font-size:36px;letter-spacing:8px;color:#1a1a1a;}
+  .logo-text span{color:#2d7de8;}
+  .card{background:#ffffff;border-radius:20px;padding:36px 32px;box-shadow:0 2px 40px rgba(0,0,0,0.08);}
+  .card-title{font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:4px;}
+  .card-sub{font-size:14px;color:#888;margin-bottom:28px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;font-weight:600;color:#444;margin-bottom:7px;}
+  .field input{width:100%;background:#f8f8f6;border:1.5px solid #e8e8e4;border-radius:10px;padding:0 16px;height:50px;color:#1a1a1a;font-family:"DM Sans",sans-serif;font-size:15px;outline:none;transition:border-color 0.2s;}
+  .field input:focus{border-color:#2d7de8;background:#fff;}
+  .field input::placeholder{color:#bbb;}
+  .forgot{text-align:right;margin-top:-8px;margin-bottom:20px;}
+  .forgot a{font-size:12px;color:#888;text-decoration:none;cursor:pointer;}
+  .forgot a:hover{color:#2d7de8;}
+  .btn-main{width:100%;background:#1a1a1a;color:#fff;border:none;border-radius:10px;height:50px;font-family:"DM Sans",sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;margin-bottom:16px;}
+  .btn-main:hover{background:#333;}
+  .btn-main:active{transform:scale(0.98);}
+  .btn-main:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+  .divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:#e8e8e4;}
+  .divider span{font-size:12px;color:#bbb;white-space:nowrap;}
+  .btn-google{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;color:#1a1a1a;border:1.5px solid #e8e8e4;border-radius:10px;height:50px;font-family:"DM Sans",sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.2s;}
+  .btn-google:hover{border-color:#bbb;background:#fafafa;}
+  .btn-google:active{transform:scale(0.98);}
+  .btn-google:disabled{opacity:0.5;cursor:not-allowed;}
+  .msg{display:none;border-radius:10px;padding:12px 14px;font-size:13px;margin-bottom:16px;line-height:1.5;}
+  .msg.error{background:#fff2f2;border:1px solid #ffd0d0;color:#cc3333;}
+  .msg.success{background:#f0faf4;border:1px solid #b8e6c8;color:#1a7a3c;}
+  .msg.visible{display:block;}
+  .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px;}
+  .spinner.dark{border-color:rgba(0,0,0,0.15);border-top-color:#1a1a1a;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .footer-note{text-align:center;margin-top:20px;font-size:12px;color:#aaa;}
+  .footer-note a{color:#2d7de8;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo-row">
+    <div class="logo-text">MIGHTY<span>FIT</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Bienvenido</div>
+    <div class="card-sub">Accede a tu cuenta para ver tus rutinas</div>
+    <div id="msgBox" class="msg"></div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="tu@email.com" autocomplete="email" inputmode="email">
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <div class="forgot"><a onclick="showForgot()">¿Olvidaste tu contraseña?</a></div>
+    <button class="btn-main" id="btnLogin" onclick="doLogin()">Entrar</button>
+    <div class="divider"><span>o</span></div>
+    <button class="btn-google" id="btnGoogle" onclick="loginWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      Conectar con Google
+    </button>
+  </div>
+  <div class="footer-note">¿Aún no tienes cuenta? <a href="/#precios">Ver planes</a></div>
+</div>
+<script>
+const SUPABASE_URL="https://cbxqdeeawyfmqemiepeb.supabase.co";
+const SUPABASE_KEY="sb_publishable_ZZUW0bqKFuwzO-4K19Vnow_-CQWSSC0";
+function showMsg(text,type){var el=document.getElementById("msgBox");el.textContent=text;el.className="msg "+type+" visible";}
+async function doLogin(){
+  var email=document.getElementById("loginEmail").value.trim();
+  var password=document.getElementById("loginPassword").value;
+  if(!email||!password){showMsg("Por favor rellena todos los campos.","error");return;}
+  var btn=document.getElementById("btnLogin");btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Entrando...';
+  try{
+    var res=await fetch(SUPABASE_URL+"/auth/v1/token?grant_type=password",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify({email,password})});
+    var data=await res.json();
+    if(!res.ok)throw new Error("Email o contraseña incorrectos");
+    var planRes=await fetch(SUPABASE_URL+"/rest/v1/users?email=eq."+encodeURIComponent(email)+"&select=plan,activo",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+data.access_token}});
+    var users=await planRes.json();
+    if(!users||users.length===0||!users[0].activo)throw new Error("No encontramos un plan activo para este email.");
+    localStorage.setItem("mf_session",JSON.stringify({access_token:data.access_token,email:email,plan:users[0].plan}));
+    showMsg("¡Bienvenido! Cargando...","success");
+    setTimeout(function(){window.location.href="/generador";},800);
+  }catch(err){showMsg(err.message,"error");}
+  finally{btn.disabled=false;btn.textContent="Entrar";}
+}
+async function loginWithGoogle(){
+  var btn=document.getElementById("btnGoogle");btn.disabled=true;btn.innerHTML='<span class="spinner dark"></span>Conectando...';
+  var next=new URLSearchParams(window.location.search).get("next")||"";
+  var redirectTo=window.location.origin+"/auth-callback.html"+(next?"?next="+encodeURIComponent(next):"");
+  window.location.href=SUPABASE_URL+"/auth/v1/authorize?provider=google&redirect_to="+encodeURIComponent(redirectTo);
+}
+async function showForgot(){
+  var email=document.getElementById("loginEmail").value.trim();
+  if(!email){showMsg("Escribe tu email arriba primero.","error");return;}
+  await fetch(SUPABASE_URL+"/auth/v1/recover",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify({email})});
+  showMsg("Si tu email existe, recibirás un enlace para restablecer tu contraseña.","success");
+}
+document.addEventListener("keydown",function(e){if(e.key==="Enter")doLogin();});
+window.addEventListener("load",function(){
+  var session=localStorage.getItem("mf_session");
+  if(session){try{if(JSON.parse(session).access_token){window.location.href="/generador";}}catch(e){localStorage.removeItem("mf_session");}}
+});
+</script>
+</body>
+</html>
