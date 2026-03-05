@@ -1,0 +1,20 @@
+[build]
+  functions = "netlify/functions"
+
+[functions]
+  timeout = 60
+
+[[redirects]]
+  from = "/login"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/generador"
+  to = "/generador.html"
+  status = 200
+
+[[redirects]]
+  from = "/auth/callback"
+  to = "/auth-callback.html"
+  status = 200
